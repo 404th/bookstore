@@ -10,7 +10,6 @@ import (
 )
 
 func main() {
-
 	// db
 	db, err := postgres.NewDB()
 	if err != nil {
