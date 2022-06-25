@@ -1,8 +1,10 @@
 package main
 
 import (
+	"fmt"
 	"log"
 
+	"github.com/404th/bookstore/config"
 	"github.com/404th/bookstore/handler"
 	"github.com/404th/bookstore/storage/postgres"
 
@@ -10,11 +12,24 @@ import (
 )
 
 func main() {
-	// db
-	db, err := postgres.NewDB()
-	if err != nil {
-		log.Fatalf("Error while connecting to db: %e", err)
-		return
+	cfg := config.Load()
+
+	str := fmt.Sprintf("port=%d host=%s user=%s dbname=%s password=%s sslmode=%s",
+		cfg.PostgresPort, cfg.PostgresHost, cfg.PostgresUser, cfg.PostgresDatabase, cfg.PostgresPassword, cfg.PostgresSSLMode,
+	)
+
+	strg := postgres.NewPostgres(str)
+	defer strg.CloseDB()
+
+	handler := handler.NewHandler(strg)
+
+	switch cfg.Environment {
+	case "dev":
+		gin.SetMode(gin.DebugMode)
+	case "test":
+		gin.SetMode(gin.TestMode)
+	default:
+		gin.SetMode(gin.ReleaseMode)
 	}
 
 	ge := gin.Default()
@@ -26,7 +41,7 @@ func main() {
 			book_category := v1.Group("/book_category")
 			{
 				book_category.POST("/", handler.CreateBookCategory)
-				book_category.GET("/", handler.GetAllBookCategory)
+				book_category.GET("/", handler.GetAllBookCategories)
 				book_category.GET("/:id", handler.GetBookCategory)
 				book_category.PUT("/:id", handler.UpdateBookCategory)
 				book_category.DELETE("/:id", handler.DeleteBookCategory)
@@ -35,16 +50,25 @@ func main() {
 			books := v1.Group("/books")
 			{
 				books.POST("/", handler.CreateBook)
-				books.GET("/", handler.GetAllBook)
+				books.GET("/", handler.GetAllBooks)
 				books.GET("/:id", handler.GetBook)
 				books.PUT("/:id", handler.UpdateBook)
 				books.DELETE("/:id", handler.DeleteBook)
 			}
+
+			authors := v1.Group("/authors")
+			{
+				authors.POST("/", handler.CreateAuthor)
+				authors.GET("/", handler.GetAllAuthors)
+				authors.GET("/:id", handler.GetBook)
+				authors.PUT("/:id", handler.UpdateBook)
+				authors.DELETE("/:id", handler.DeleteBook)
+			}
 		}
 	}
 
-	if err := ge.Run(":6767"); err != nil {
-		log.Fatalf("error while running app on port:6767 => %r", err)
+	if err := ge.Run(cfg.HTTPPort); err != nil {
+		log.Fatalf("error while running app on port: %s => %e", cfg.HTTPPort, err)
 		return
 	}
 }

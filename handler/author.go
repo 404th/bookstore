@@ -9,38 +9,38 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (h *handler) CreateBook(ctx *gin.Context) {
-	var bookCreate *models.CreateBook
-	var book *models.Book
+func (h *handler) CreateAuthor(ctx *gin.Context) {
+	var ar *models.CreateAuthor
+	var new_ar *models.Author
 
-	if err := ctx.ShouldBindJSON(&bookCreate); err != nil {
+	if err := ctx.ShouldBindJSON(&ar); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"response": models.Response{
 				Error:   err.Error(),
-				Message: "Could not bind json => book creating",
+				Message: "Could not convert data to json",
 				Data:    nil,
 			},
 		})
 		return
 	}
 
+	new_id := helper.UUIDMaker()
 	dt := time.Now()
 
-	book.ID = helper.UUIDMaker()
-	book.CreatedAt = dt
-	book.UpdatedAt = dt
-	book.CategoryID = bookCreate.CategoryID
-	book.AuthorID = bookCreate.AuthorID
-	book.Name = bookCreate.Name
-	book.Price = bookCreate.Price
-	book.Definition = bookCreate.Definition
+	new_ar.ID = new_id
+	new_ar.Age = ar.Age
+	new_ar.Email = ar.Email
+	new_ar.Firstname = ar.Firstname
+	new_ar.Secondname = ar.Secondname
+	new_ar.CreatedAt = dt
+	new_ar.UpdatedAt = dt
 
-	res, err := h.strg.BookRepo().CreateBook(book)
+	res, err := h.strg.AuthorRepo().CreateAuthor(new_ar)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"response": models.Response{
 				Error:   err.Error(),
-				Message: "Could not bind json => book creating",
+				Message: "Some error has been caught in postgres:author",
 				Data:    nil,
 			},
 		})
@@ -50,43 +50,19 @@ func (h *handler) CreateBook(ctx *gin.Context) {
 	ctx.JSON(http.StatusCreated, gin.H{
 		"response": models.Response{
 			Error:   "",
-			Message: "Book created!",
+			Message: "Everything is good!",
 			Data:    res,
 		},
 	})
 }
 
-func (h *handler) GetAllBooks(ctx *gin.Context) {
-	books, err := h.strg.BookRepo().GetAllBooks()
+func (h *handler) GetAllAuthors(ctx *gin.Context) {
+	res, err := h.strg.AuthorRepo().GetAllAuthors()
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"response": models.Response{
 				Error:   err.Error(),
-				Message: "Some error has been caught in postgres:author getting all books",
-				Data:    nil,
-			},
-		})
-		return
-	}
-
-	ctx.JSON(http.StatusOK, gin.H{
-		"response": models.Response{
-			Error:   "",
-			Message: "Everything is good!",
-			Data:    books,
-		},
-	})
-}
-
-func (h *handler) GetBook(ctx *gin.Context) {
-	id := ctx.Param("id")
-
-	res, err := h.strg.BookRepo().GetBook(id)
-	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"response": models.Response{
-				Error:   err.Error(),
-				Message: "Some error has been caught in postgres:author getting a book",
+				Message: "Some error has been caught in postgres:author getting all authors",
 				Data:    nil,
 			},
 		})
@@ -102,30 +78,14 @@ func (h *handler) GetBook(ctx *gin.Context) {
 	})
 }
 
-func (h *handler) UpdateBook(ctx *gin.Context) {
-	var bookModel *models.UpdateBook
+func (h *handler) GetAuthor(ctx *gin.Context) {
 	id := ctx.Param("id")
-
-	if err := ctx.ShouldBindJSON(&bookModel); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"response": models.Response{
-				Error:   err.Error(),
-				Message: "Could not bind json => UpdateBook",
-				Data:    nil,
-			},
-		})
-		return
-	}
-
-	dt := time.Now()
-	bookModel.UpdatedAt = dt
-
-	res, err := h.strg.BookRepo().UpdateBook(bookModel, id)
+	res, err := h.strg.AuthorRepo().GetAuthor(id)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"response": models.Response{
 				Error:   err.Error(),
-				Message: "Could get answer from pg => UpdateBook",
+				Message: "Some error has been caught in postgres:author getting an author",
 				Data:    nil,
 			},
 		})
@@ -135,21 +95,58 @@ func (h *handler) UpdateBook(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, gin.H{
 		"response": models.Response{
 			Error:   "",
-			Message: "Everything is good => UpdateBook",
+			Message: "Everything is good!",
 			Data:    res,
 		},
 	})
 }
 
-func (h *handler) DeleteBook(ctx *gin.Context) {
+func (h *handler) UpdateAuthor(ctx *gin.Context) {
+	var ar *models.UpdateAuthor
 	id := ctx.Param("id")
 
-	res, err := h.strg.BookRepo().DeleteBook(id)
+	if err := ctx.ShouldBindJSON(&ar); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"response": models.Response{
+				Error:   err.Error(),
+				Message: "Could not convert data into json",
+				Data:    nil,
+			},
+		})
+		return
+	}
+
+	res, err := h.strg.AuthorRepo().UpdateAuthor(ar, id)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"response": models.Response{
 				Error:   err.Error(),
-				Message: "Some error has been caught in postgres:book deleting",
+				Message: "Some error has been caught in postgres:author update",
+				Data:    nil,
+			},
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusCreated, gin.H{
+		"response": models.Response{
+			Error:   "",
+			Message: "Everything is good!",
+			Data:    res,
+		},
+	})
+	return
+}
+
+func (h *handler) DeleteAuthor(ctx *gin.Context) {
+	id := ctx.Param("id")
+
+	res, err := h.strg.AuthorRepo().DeleteAuthor(id)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"response": models.Response{
+				Error:   err.Error(),
+				Message: "Some error has been caught in postgres:author deleting an author",
 				Data:    nil,
 			},
 		})

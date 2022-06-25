@@ -9,6 +9,12 @@ type BookCategory struct {
 	UpdatedAt    time.Time `json:"updated_at" db:"updated_at"`
 }
 
+type UpdateBookCategory struct {
+	ID           string    `json:"id" db:"id" example:"123abd" binding:"required"`
+	CategoryName string    `json:"category_name" db:"category_name" binding:"required" example:"fiction"`
+	UpdatedAt    time.Time `json:"updated_at" db:"updated_at"`
+}
+
 type CreateBookCategory struct {
 	CategoryName string `json:"category_name" db:"category_name" binding:"required" example:"fiction"`
 }
