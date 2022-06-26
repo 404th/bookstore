@@ -14,7 +14,7 @@ func (bc *bookCategoryPg) GetBookCategory(id string) (*models.BookCategory, erro
 	return nil, nil
 }
 
-func (bc *bookCategoryPg) GetAllBookCategories() ([]models.BookCategory, error) {
+func (bc *bookCategoryPg) GetAllBookCategories(queryParam models.ApplicationQueryParamModel) ([]models.BookCategory, error) {
 	// TODO
 	return nil, nil
 }
@@ -24,12 +24,12 @@ func (bc *bookCategoryPg) CreateBookCategory(details *models.BookCategory) (stri
 	return "", nil
 }
 
-func (bc *bookCategoryPg) UpdateBookCategory(details *models.UpdateBookCategory, id string) (string, error) {
+func (bc *bookCategoryPg) UpdateBookCategory(details *models.UpdateBookCategory, id string) (int64, error) {
 	// TODO
-	return "", nil
+	return 0, nil
 }
 
-func (bc *bookCategoryPg) DeleteBookCategory(id string) (string, error) {
+func (bc *bookCategoryPg) DeleteBookCategory(id string) (int64, error) {
 	// TODO
-	return "", nil
+	return 0, nil
 }

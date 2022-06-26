@@ -5,6 +5,7 @@ import (
 
 	"github.com/404th/bookstore/storage"
 	"github.com/jmoiron/sqlx"
+	_ "github.com/lib/pq"
 )
 
 type postgres struct {

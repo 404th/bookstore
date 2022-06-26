@@ -60,9 +60,9 @@ func main() {
 			{
 				authors.POST("/", handler.CreateAuthor)
 				authors.GET("/", handler.GetAllAuthors)
-				authors.GET("/:id", handler.GetBook)
-				authors.PUT("/:id", handler.UpdateBook)
-				authors.DELETE("/:id", handler.DeleteBook)
+				authors.GET("/:id", handler.GetAuthor)
+				authors.PUT("/:id", handler.UpdateAuthor)
+				authors.DELETE("/:id", handler.DeleteAuthor)
 			}
 		}
 	}

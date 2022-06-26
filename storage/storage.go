@@ -11,24 +11,24 @@ type StorageI interface {
 
 type BookCategoryI interface {
 	GetBookCategory(id string) (*models.BookCategory, error)
-	GetAllBookCategories() ([]models.BookCategory, error)
+	GetAllBookCategories(queryParam models.ApplicationQueryParamModel) ([]models.BookCategory, error)
 	CreateBookCategory(details *models.BookCategory) (string, error)
-	UpdateBookCategory(details *models.UpdateBookCategory, id string) (string, error)
-	DeleteBookCategory(id string) (string, error)
+	UpdateBookCategory(details *models.UpdateBookCategory, id string) (int64, error)
+	DeleteBookCategory(id string) (int64, error)
 }
 
 type BookI interface {
 	GetBook(id string) (*models.Book, error)
-	GetAllBooks() ([]*models.Book, error)
+	GetAllBooks(queryParam models.ApplicationQueryParamModel) ([]*models.Book, error)
 	CreateBook(details *models.Book) (string, error)
-	UpdateBook(details *models.UpdateBook, id string) (string, error)
-	DeleteBook(id string) (string, error)
+	UpdateBook(details *models.UpdateBook, id string) (int64, error)
+	DeleteBook(id string) (int64, error)
 }
 
 type AuthorI interface {
-	GetAuthor(id string) (*models.Author, error)
-	GetAllAuthors() ([]models.Author, error)
-	CreateAuthor(details *models.Author) (string, error)
-	UpdateAuthor(details *models.UpdateAuthor, id string) (string, error)
-	DeleteAuthor(id string) (string, error)
+	GetAuthor(id string) (models.Author, error)
+	GetAllAuthors(queryParam models.ApplicationQueryParamModel) ([]models.Author, error)
+	CreateAuthor(details models.Author) (string, error)
+	UpdateAuthor(details *models.UpdateAuthor, id string) (int64, error)
+	DeleteAuthor(id string) (int64, error)
 }

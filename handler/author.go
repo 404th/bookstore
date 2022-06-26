@@ -2,6 +2,7 @@ package handler
 
 import (
 	"net/http"
+	"strconv"
 	"time"
 
 	"github.com/404th/bookstore/helper"
@@ -10,8 +11,8 @@ import (
 )
 
 func (h *handler) CreateAuthor(ctx *gin.Context) {
-	var ar *models.CreateAuthor
-	var new_ar *models.Author
+	var ar models.CreateAuthor
+	var new_ar models.Author
 
 	if err := ctx.ShouldBindJSON(&ar); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
@@ -57,7 +58,48 @@ func (h *handler) CreateAuthor(ctx *gin.Context) {
 }
 
 func (h *handler) GetAllAuthors(ctx *gin.Context) {
-	res, err := h.strg.AuthorRepo().GetAllAuthors()
+	var qP models.ApplicationQueryParamModel
+
+	offset, offset_exists := ctx.GetQuery("offset")
+	if offset_exists {
+		res_offset, err := strconv.Atoi(offset)
+		if err != nil {
+			ctx.JSON(http.StatusBadRequest, gin.H{
+				"response": models.Response{
+					Error:   err.Error(),
+					Message: "Some error has been caught in postgres:author getting all authors",
+					Data:    nil,
+				},
+			})
+			return
+		}
+
+		qP.Offset = res_offset
+	}
+
+	limit, limit_exists := ctx.GetQuery("limit")
+	if limit_exists {
+		res_limit, err := strconv.Atoi(limit)
+		if err != nil {
+			ctx.JSON(http.StatusBadRequest, gin.H{
+				"response": models.Response{
+					Error:   err.Error(),
+					Message: "Some error has been caught in postgres:author getting all authors",
+					Data:    nil,
+				},
+			})
+			return
+		}
+
+		qP.Limit = res_limit
+	}
+
+	search, search_exists := ctx.GetQuery("search")
+	if search_exists {
+		qP.Search = search
+	}
+
+	res, err := h.strg.AuthorRepo().GetAllAuthors(qP)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"response": models.Response{
@@ -95,10 +137,11 @@ func (h *handler) GetAuthor(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, gin.H{
 		"response": models.Response{
 			Error:   "",
-			Message: "Everything is good!",
+			Message: id,
 			Data:    res,
 		},
 	})
+	return
 }
 
 func (h *handler) UpdateAuthor(ctx *gin.Context) {

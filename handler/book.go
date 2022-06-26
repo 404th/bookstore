@@ -2,6 +2,7 @@ package handler
 
 import (
 	"net/http"
+	"strconv"
 	"time"
 
 	"github.com/404th/bookstore/helper"
@@ -57,7 +58,48 @@ func (h *handler) CreateBook(ctx *gin.Context) {
 }
 
 func (h *handler) GetAllBooks(ctx *gin.Context) {
-	books, err := h.strg.BookRepo().GetAllBooks()
+	var qP models.ApplicationQueryParamModel
+
+	offset, offset_exists := ctx.GetQuery("offset")
+	if offset_exists {
+		res_offset, err := strconv.Atoi(offset)
+		if err != nil {
+			ctx.JSON(http.StatusBadRequest, gin.H{
+				"response": models.Response{
+					Error:   err.Error(),
+					Message: "Some error has been caught in postgres:author getting all books",
+					Data:    nil,
+				},
+			})
+			return
+		}
+
+		qP.Offset = res_offset
+	}
+
+	limit, limit_exists := ctx.GetQuery("limit")
+	if limit_exists {
+		res_limit, err := strconv.Atoi(limit)
+		if err != nil {
+			ctx.JSON(http.StatusBadRequest, gin.H{
+				"response": models.Response{
+					Error:   err.Error(),
+					Message: "Some error has been caught in postgres:author getting all books",
+					Data:    nil,
+				},
+			})
+			return
+		}
+
+		qP.Limit = res_limit
+	}
+
+	search, search_exists := ctx.GetQuery("search")
+	if search_exists {
+		qP.Search = search
+	}
+
+	books, err := h.strg.BookRepo().GetAllBooks(qP)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"response": models.Response{

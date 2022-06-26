@@ -14,7 +14,7 @@ func (bk *bookPg) GetBook(id string) (*models.Book, error) {
 	return nil, nil
 }
 
-func (bk *bookPg) GetAllBooks() ([]*models.Book, error) {
+func (bk *bookPg) GetAllBooks(queryParam models.ApplicationQueryParamModel) ([]*models.Book, error) {
 	// TODO
 	return nil, nil
 }
@@ -24,12 +24,12 @@ func (bk *bookPg) CreateBook(details *models.Book) (string, error) {
 	return "", nil
 }
 
-func (bk *bookPg) UpdateBook(details *models.UpdateBook, id string) (string, error) {
+func (bk *bookPg) UpdateBook(details *models.UpdateBook, id string) (int64, error) {
 	// TODO
-	return "", nil
+	return 0, nil
 }
 
-func (bk *bookPg) DeleteBook(id string) (string, error) {
+func (bk *bookPg) DeleteBook(id string) (int64, error) {
 	// TODO
-	return "", nil
+	return 0, nil
 }

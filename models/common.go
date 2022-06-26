@@ -6,6 +6,9 @@ type Response struct {
 	Data    interface{}
 }
 
-// // getting time
-// dt := time.Now()
-// fmt.Println(dt.Format("01-02-2006 15:04:05"))
+// ApplicationQueryParamModel ...
+type ApplicationQueryParamModel struct {
+	Search string `json:"search"`
+	Offset int    `json:"offset" default:"0"`
+	Limit  int    `json:"limit" default:"10"`
+}
