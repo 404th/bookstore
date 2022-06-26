@@ -161,8 +161,8 @@ func (ar *authorPg) UpdateAuthor(details models.UpdateAuthor, id string) (int64,
 	}
 
 	if details.Age > 0 {
-		params["firstname"] = details.Firstname
-		query += `firstname = :firstname,`
+		params["age"] = details.Age
+		query += `age = :age,`
 	}
 
 	query += `updated_at = now() WHERE id =:id`

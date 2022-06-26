@@ -10,7 +10,7 @@ CREATE TABLE author (
 
 CREATE TABLE book_category (
     id VARCHAR(200) PRIMARY KEY NOT NULL,
-    firstname VARCHAR(200) UNIQUE NOT NULL,
+    category_name VARCHAR(200) UNIQUE NOT NULL,
     created_at TIMESTAMP,
     updated_at TIMESTAMP
 );

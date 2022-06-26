@@ -10,9 +10,9 @@ type StorageI interface {
 }
 
 type BookCategoryI interface {
-	GetBookCategory(id string) (*models.BookCategory, error)
+	GetBookCategory(id string) (models.BookCategory, error)
 	GetAllBookCategories(queryParam models.ApplicationQueryParamModel) ([]models.BookCategory, error)
-	CreateBookCategory(details *models.BookCategory) (string, error)
+	CreateBookCategory(details models.BookCategory) (string, error)
 	UpdateBookCategory(details *models.UpdateBookCategory, id string) (int64, error)
 	DeleteBookCategory(id string) (int64, error)
 }

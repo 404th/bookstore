@@ -13,7 +13,7 @@ import (
 
 func (h *handler) CreateBookCategory(ctx *gin.Context) {
 	var bookCatCreate *models.CreateBookCategory
-	var bookCat *models.BookCategory
+	var bookCat models.BookCategory
 
 	if err := ctx.ShouldBindJSON(&bookCatCreate); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
