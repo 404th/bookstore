@@ -139,20 +139,33 @@ func (ar *authorPg) GetAllAuthors(queryParam models.ApplicationQueryParamModel) 
 	return res, nil
 }
 
-func (ar *authorPg) UpdateAuthor(details *models.UpdateAuthor, id string) (int64, error) {
-	query :=
-		`
-			UPDATE author SET
-				body = :body,
-				updated_at = now()
-			WHERE
-				id = :id
-		`
+func (ar *authorPg) UpdateAuthor(details models.UpdateAuthor, id string) (int64, error) {
+	params := make(map[string]interface{})
+	params["id"] = id
 
-	params := map[string]interface{}{
-		"id":   id,
-		"body": details,
+	query := `UPDATE author SET `
+
+	if len(details.Firstname) > 0 {
+		params["firstname"] = details.Firstname
+		query += `firstname = :firstname,`
 	}
+
+	if len(details.Secondname) > 0 {
+		params["secondname"] = details.Secondname
+		query += `secondname = :secondname,`
+	}
+
+	if len(details.Email) > 0 {
+		params["email"] = details.Email
+		query += `email = :email,`
+	}
+
+	if details.Age > 0 {
+		params["firstname"] = details.Firstname
+		query += `firstname = :firstname,`
+	}
+
+	query += `updated_at = now() WHERE id =:id`
 
 	result, err := ar.db.NamedExec(query, params)
 	if err != nil {

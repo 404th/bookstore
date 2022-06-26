@@ -29,6 +29,6 @@ type AuthorI interface {
 	GetAuthor(id string) (models.Author, error)
 	GetAllAuthors(queryParam models.ApplicationQueryParamModel) ([]models.Author, error)
 	CreateAuthor(details models.Author) (string, error)
-	UpdateAuthor(details *models.UpdateAuthor, id string) (int64, error)
+	UpdateAuthor(details models.UpdateAuthor, id string) (int64, error)
 	DeleteAuthor(id string) (int64, error)
 }

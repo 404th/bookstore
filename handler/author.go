@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"log"
 	"net/http"
 	"strconv"
 	"time"
@@ -145,7 +146,7 @@ func (h *handler) GetAuthor(ctx *gin.Context) {
 }
 
 func (h *handler) UpdateAuthor(ctx *gin.Context) {
-	var ar *models.UpdateAuthor
+	var ar models.UpdateAuthor
 	id := ctx.Param("id")
 
 	if err := ctx.ShouldBindJSON(&ar); err != nil {
@@ -161,6 +162,7 @@ func (h *handler) UpdateAuthor(ctx *gin.Context) {
 
 	res, err := h.strg.AuthorRepo().UpdateAuthor(ar, id)
 	if err != nil {
+		log.Println(err)
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"response": models.Response{
 				Error:   err.Error(),
