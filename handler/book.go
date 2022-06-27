@@ -11,8 +11,8 @@ import (
 )
 
 func (h *handler) CreateBook(ctx *gin.Context) {
-	var bookCreate *models.CreateBook
-	var book *models.Book
+	var bookCreate models.CreateBook
+	var book models.Book
 
 	if err := ctx.ShouldBindJSON(&bookCreate); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
@@ -145,7 +145,7 @@ func (h *handler) GetBook(ctx *gin.Context) {
 }
 
 func (h *handler) UpdateBook(ctx *gin.Context) {
-	var bookModel *models.UpdateBook
+	var bookModel models.UpdateBook
 	id := ctx.Param("id")
 
 	if err := ctx.ShouldBindJSON(&bookModel); err != nil {

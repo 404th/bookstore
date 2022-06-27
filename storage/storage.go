@@ -18,10 +18,10 @@ type BookCategoryI interface {
 }
 
 type BookI interface {
-	GetBook(id string) (*models.Book, error)
-	GetAllBooks(queryParam models.ApplicationQueryParamModel) ([]*models.Book, error)
-	CreateBook(details *models.Book) (string, error)
-	UpdateBook(details *models.UpdateBook, id string) (int64, error)
+	GetBook(id string) (models.Book, error)
+	GetAllBooks(queryParam models.ApplicationQueryParamModel) ([]models.Book, error)
+	CreateBook(details models.Book) (string, error)
+	UpdateBook(details models.UpdateBook, id string) (int64, error)
 	DeleteBook(id string) (int64, error)
 }
 

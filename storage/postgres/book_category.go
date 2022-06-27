@@ -22,7 +22,7 @@ func (bc *bookCategoryPg) CreateBookCategory(details models.BookCategory) (strin
 		$2,
 		$3,
 		$4
-	);`
+	) RETURNING id;`
 
 	row := bc.db.QueryRow(query, details.ID, details.CategoryName, details.CreatedAt, details.UpdatedAt)
 

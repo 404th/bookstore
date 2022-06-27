@@ -20,8 +20,8 @@ CREATE TABLE book (
     category_id VARCHAR(200) NOT NULL,
     author_id VARCHAR(200) NOT NULL,
     name VARCHAR(200) NOT NULL,
-    price INT NOT NULL,
-    defenition VARCHAR(200),
+    price REAL NOT NULL,
+    definition VARCHAR(200),
     created_at TIMESTAMP,
     updated_at TIMESTAMP
 );
