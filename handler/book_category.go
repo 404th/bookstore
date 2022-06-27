@@ -11,6 +11,16 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// @Summary Create a book category
+// @ID create_book_category_id
+// @Description has no relation with others
+// @Tags BookCategory
+// @Router /book_category [post]
+// @Accept json
+// @Param author body models.CreateBookCategory true "author body"
+// @Produce json
+// @Success 201 {object} models.Response "Description of the RESPONSE"
+// @Response 400 {object} models.Response "Some bad request"
 func (h *handler) CreateBookCategory(ctx *gin.Context) {
 	var bookCatCreate *models.CreateBookCategory
 	var bookCat models.BookCategory
@@ -54,6 +64,16 @@ func (h *handler) CreateBookCategory(ctx *gin.Context) {
 	})
 }
 
+// @Summary Get all book categories
+// @ID get_all_book_categories_id
+// @Router /book_category [get]
+// @Tags BookCategory
+// @Produce json
+// @Param search query string false "search query"
+// @Param limit query string false "limit"
+// @Param offset query string false "offset"
+// @Success 200 {object} models.Response "Description of the RESPONSE"
+// @Response 404 {object} models.Response "Some bad request"
 func (h *handler) GetAllBookCategories(ctx *gin.Context) {
 	var qP models.ApplicationQueryParamModel
 
@@ -117,6 +137,15 @@ func (h *handler) GetAllBookCategories(ctx *gin.Context) {
 	})
 }
 
+// @Summary Get book category by ID
+// @ID get_book_category_id
+// @Tags BookCategory
+// @Router /book_category/{id} [get]
+// @Produce json
+// @Param id path string true "book category id"
+// @Success 200 {object} models.Response "Description of the RESPONSE"
+// @Response 400 {object} models.Response "Bad Request"
+// @Response 404 {object} models.Response "Not found"
 func (h *handler) GetBookCategory(ctx *gin.Context) {
 	id := ctx.Param("id")
 
@@ -141,6 +170,17 @@ func (h *handler) GetBookCategory(ctx *gin.Context) {
 	})
 }
 
+// @Summary Update book category
+// @Tags BookCategory
+// @ID update_author_id
+// @Router /book_category/{id} [put]
+// @Accept json
+// @Produce json
+// @Param id path string true "book category id"
+// @Param author body models.UpdateBookCategory true "book category update model"
+// @Success 200 {object} models.Response "Description"
+// @Response 400 {object} models.Response "Some bad request"
+// @Response 404 {object} models.Response "Not found"
 func (h *handler) UpdateBookCategory(ctx *gin.Context) {
 	var bookCatModel *models.UpdateBookCategory
 	id := ctx.Param("id")
@@ -180,6 +220,14 @@ func (h *handler) UpdateBookCategory(ctx *gin.Context) {
 	})
 }
 
+// @Summary delete an book category by id
+// @Tags BookCategory
+// @Router /book_category/{id} [delete]
+// @ID delete_book_category_id
+// @Param id path string true "book category id"
+// @Success 200 {object} models.Response "Description"
+// @Response 400 {object} models.Response "Some bad request"
+// @Response 404 {object} models.Response "Not found"
 func (h *handler) DeleteBookCategory(ctx *gin.Context) {
 	id := ctx.Param("id")
 

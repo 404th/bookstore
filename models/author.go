@@ -16,7 +16,7 @@ type CreateAuthor struct {
 	Firstname  string `json:"firstname" db:"firstname" binding:"required" example:"Created John"`
 	Secondname string `json:"secondname" db:"secondname" binding:"required" example:"created secondname"`
 	Email      string `json:"email" db:"email" example:"created email"`
-	Age        uint16 `json:"age" db:"age" example:"created age"`
+	Age        uint16 `json:"age" db:"age" example:"22"`
 }
 
 type UpdateAuthor struct {

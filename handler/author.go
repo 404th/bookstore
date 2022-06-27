@@ -11,6 +11,16 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// @Summary Create an author
+// @ID create_author_id
+// @Description has no relation with others
+// @Tags Author
+// @Router /authors [post]
+// @Accept json
+// @Param author body models.CreateAuthor true "author body"
+// @Produce json
+// @Success 201 {object} models.Response "Description of the RESPONSE"
+// @Response 400 {object} models.Response "Some bad request"
 func (h *handler) CreateAuthor(ctx *gin.Context) {
 	var ar models.CreateAuthor
 	var new_ar models.Author
@@ -58,6 +68,16 @@ func (h *handler) CreateAuthor(ctx *gin.Context) {
 	})
 }
 
+// @Summary get all authors
+// @ID get_all_authors_id
+// @Router /authors [get]
+// @Tags Author
+// @Produce json
+// @Param search query string false "search query"
+// @Param limit query string false "limit"
+// @Param offset query string false "offset"
+// @Success 200 {object} models.Response "Description of the RESPONSE"
+// @Response 404 {object} models.Response "Some bad request"
 func (h *handler) GetAllAuthors(ctx *gin.Context) {
 	var qP models.ApplicationQueryParamModel
 
@@ -121,6 +141,15 @@ func (h *handler) GetAllAuthors(ctx *gin.Context) {
 	})
 }
 
+// @Summary get author by ID
+// @ID get_author_id
+// @Tags Author
+// @Router /authors/{id} [get]
+// @Produce json
+// @Param id path string true "author id"
+// @Success 200 {object} models.Response "Description of the RESPONSE"
+// @Response 400 {object} models.Response "Bad Request"
+// @Response 404 {object} models.Response "Not found"
 func (h *handler) GetAuthor(ctx *gin.Context) {
 	id := ctx.Param("id")
 	res, err := h.strg.AuthorRepo().GetAuthor(id)
@@ -145,6 +174,17 @@ func (h *handler) GetAuthor(ctx *gin.Context) {
 	return
 }
 
+// @Summary Update Author
+// @Tags Author
+// @ID update_author_id
+// @Router /authors/{id} [put]
+// @Accept json
+// @Produce json
+// @Param id path string true "author id"
+// @Param author body models.UpdateAuthor true "author update model"
+// @Success 200 {object} models.Response "Description"
+// @Response 400 {object} models.Response "Some bad request"
+// @Response 404 {object} models.Response "Not found"
 func (h *handler) UpdateAuthor(ctx *gin.Context) {
 	var ar models.UpdateAuthor
 	id := ctx.Param("id")
@@ -183,6 +223,14 @@ func (h *handler) UpdateAuthor(ctx *gin.Context) {
 	return
 }
 
+// @Summary delete an author by id
+// @Tags Author
+// @Router /authors/{id} [delete]
+// @ID delete_author_id
+// @Param id path string true "author id"
+// @Success 200 {object} models.Response "Description"
+// @Response 400 {object} models.Response "Some bad request"
+// @Response 404 {object} models.Response "Not found"
 func (h *handler) DeleteAuthor(ctx *gin.Context) {
 	id := ctx.Param("id")
 

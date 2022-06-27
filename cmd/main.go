@@ -8,7 +8,8 @@ import (
 	"github.com/404th/bookstore/handler"
 	"github.com/404th/bookstore/storage/postgres"
 
-	docs "github.com/404th/bookstore/cmd/docs"
+	"github.com/404th/bookstore/cmd/docs"
+	_ "github.com/404th/bookstore/cmd/docs"
 	swaggerFiles "github.com/swaggo/files"     // swagger embed files
 	ginSwagger "github.com/swaggo/gin-swagger" // gin-swagger middleware
 
@@ -28,11 +29,10 @@ import (
 // @license.url   http://www.incredible_certificate_of_apache_co.organisation/licenses/LICENSE-32423423423.0.html
 
 // @BasePath  /api/v1
-
 func main() {
 	cfg := config.Load()
 
-	docs.SwaggerInfo.Host = fmt.Sprintf("%v:%v", cfg.ServiceHost, cfg.HTTPPort)
+	docs.SwaggerInfo.Host = fmt.Sprintf("%v%v", cfg.ServiceHost, cfg.HTTPPort)
 
 	str := fmt.Sprintf("port=%d host=%s user=%s dbname=%s password=%s sslmode=%s",
 		cfg.PostgresPort, cfg.PostgresHost, cfg.PostgresUser, cfg.PostgresDatabase, cfg.PostgresPassword, cfg.PostgresSSLMode,
