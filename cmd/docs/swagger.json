@@ -1,0 +1,20 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Book Store beta application",
+        "title": "Book Store",
+        "termsOfService": "http://terms_of_service_is_here.uzb",
+        "contact": {
+            "name": "API Support",
+            "url": "http://t.me/four0fourth",
+            "email": "umarov.doniyor.2001@gmail.com"
+        },
+        "license": {
+            "name": "Incredible Certificate of Apache Co. 23923.0",
+            "url": "http://www.incredible_certificate_of_apache_co.organisation/licenses/LICENSE-32423423423.0.html"
+        },
+        "version": "0.0.1"
+    },
+    "basePath": "/api/v1",
+    "paths": {}
+}

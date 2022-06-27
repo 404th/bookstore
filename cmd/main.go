@@ -8,11 +8,31 @@ import (
 	"github.com/404th/bookstore/handler"
 	"github.com/404th/bookstore/storage/postgres"
 
+	docs "github.com/404th/bookstore/cmd/docs"
+	swaggerFiles "github.com/swaggo/files"     // swagger embed files
+	ginSwagger "github.com/swaggo/gin-swagger" // gin-swagger middleware
+
 	"github.com/gin-gonic/gin"
 )
 
+// @title           Book Store
+// @version         0.0.1
+// @description     Book Store beta application
+// @termsOfService  http://terms_of_service_is_here.uzb
+
+// @contact.name   API Support
+// @contact.url    http://t.me/four0fourth
+// @contact.email  umarov.doniyor.2001@gmail.com
+
+// @license.name  Incredible Certificate of Apache Co. 23923.0
+// @license.url   http://www.incredible_certificate_of_apache_co.organisation/licenses/LICENSE-32423423423.0.html
+
+// @BasePath  /api/v1
+
 func main() {
 	cfg := config.Load()
+
+	docs.SwaggerInfo.Host = fmt.Sprintf("%v:%v", cfg.ServiceHost, cfg.HTTPPort)
 
 	str := fmt.Sprintf("port=%d host=%s user=%s dbname=%s password=%s sslmode=%s",
 		cfg.PostgresPort, cfg.PostgresHost, cfg.PostgresUser, cfg.PostgresDatabase, cfg.PostgresPassword, cfg.PostgresSSLMode,
@@ -66,6 +86,8 @@ func main() {
 			}
 		}
 	}
+
+	api.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	if err := ge.Run(cfg.HTTPPort); err != nil {
 		log.Fatalf("error while running app on port: %s => %e", cfg.HTTPPort, err)

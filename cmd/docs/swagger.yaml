@@ -1,0 +1,15 @@
+basePath: /api/v1
+info:
+  contact:
+    email: umarov.doniyor.2001@gmail.com
+    name: API Support
+    url: http://t.me/four0fourth
+  description: Book Store beta application
+  license:
+    name: Incredible Certificate of Apache Co. 23923.0
+    url: http://www.incredible_certificate_of_apache_co.organisation/licenses/LICENSE-32423423423.0.html
+  termsOfService: http://terms_of_service_is_here.uzb
+  title: Book Store
+  version: 0.0.1
+paths: {}
+swagger: "2.0"
